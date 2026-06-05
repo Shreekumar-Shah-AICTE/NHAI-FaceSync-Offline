@@ -20,9 +20,9 @@ import {
   TextInput,
 } from 'react-native';
 import { CameraView } from '../components/CameraView';
-import LivenessDetectionService, { ActiveLivenessChallenge } from '../services/LivenessDetectionService';
+import LivenessDetectionService, { type ActiveLivenessChallenge } from '../services/LivenessDetectionService';
 import FaceRecognitionService from '../services/FaceRecognitionService';
-import SafetyGearDetectorService, { SafetyComplianceResult } from '../services/SafetyGearDetectorService';
+import SafetyGearDetectorService, { type SafetyComplianceResult } from '../services/SafetyGearDetectorService';
 import DatabaseService from '../services/DatabaseService';
 import { verifySupervisorSignature, sha256 } from '../utils/cryptoUtils';
 
