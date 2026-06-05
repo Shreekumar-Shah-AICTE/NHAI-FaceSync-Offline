@@ -26,6 +26,7 @@ To ensure absolute auditability and showcase engineering depth, the core compone
 
 * **Entrypoint & Initialization:** [`App.tsx`](./App.tsx) — Handles secure SQLite opening, TFLite model pre-caching, and app-wide state loading.
 * **Navigation Core:** [`src/navigation/AppNavigator.tsx`](./src/navigation/AppNavigator.tsx) — Orchestrates routing flows between enrollment and live diagnostics.
+* **Diagnostics Terminal:** [`src/screens/DiagnosticsScreen.tsx`](./src/screens/DiagnosticsScreen.tsx) — Displays local Merkle Chain integrity audit logs and on-device sensor health.
 * **On-Device Database:** [`src/services/DatabaseService.ts`](./src/services/DatabaseService.ts) — Implements encrypted storage via **SQLCipher (AES-256)** and the automatic physical data scrubbing (`VACUUM`) purge protocol.
 * **Facial Embedding Model:** [`src/services/FaceRecognitionService.ts`](./src/services/FaceRecognitionService.ts) — Orchestrates the **MobileFaceNet** quantized inference runtime and L2 embedding similarity matching.
 * **Dual-Layer Anti-Spoofing:** [`src/services/LivenessDetectionService.ts`](./src/services/LivenessDetectionService.ts) — Drives **MiniFASNet v2** passive texture analysis alongside ML Kit landmark active challenge validators.

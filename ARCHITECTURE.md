@@ -24,7 +24,8 @@ NHAI_Proposal/
 │   ├── screens/
 │   │   ├── HomeScreen.tsx      # Diagnostic board, offline queue status, manual sync trigger
 │   │   ├── EnrollmentScreen.tsx# Reference template capture, metadata form, centroid enrollment
-│   │   └── VerificationScreen.tsx# Active & Passive liveness state machine orchestrator
+│   │   ├── VerificationScreen.tsx# Active & Passive liveness state machine orchestrator
+│   │   └── DiagnosticsScreen.tsx# Local Merkle Chain audit ledger and sensor diagnostic board
 │   ├── services/
 │   │   ├── DatabaseService.ts  # SQLCipher AES-256 storage, Merkle hash logs, and purge routines
 │   │   ├── FaceRecognitionService.ts # Quantized MobileFaceNet ArcFace embedding generation

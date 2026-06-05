@@ -5,8 +5,8 @@
  * Implements a "Certified Purge" mechanism that physically wipes data post-sync.
  */
 
-import NetInfo, { type NetInfoState } from '@react-native-community/netinfo';
-import DatabaseService, { type VerificationLog } from './DatabaseService';
+import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+import DatabaseService, { VerificationLog } from './DatabaseService';
 import { MODEL_CONFIGS } from '../config/modelConfig';
 
 class SyncPurgeService {

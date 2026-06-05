@@ -171,6 +171,19 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
               <Text style={styles.btnSubText}>Register new identity reference embeddings</Text>
             </View>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.enrollActionBtn, { marginTop: 14, borderColor: 'rgba(2, 132, 199, 0.25)', backgroundColor: 'rgba(2, 132, 199, 0.03)' }]}
+            onPress={() => navigation.navigate('Diagnostics')}
+          >
+            <View style={[styles.iconCircleEnroll, { backgroundColor: 'rgba(2, 132, 199, 0.15)' }]}>
+              <Text style={styles.iconSymbol}>📟</Text>
+            </View>
+            <View style={styles.btnTextContent}>
+              <Text style={styles.btnMainText}>System Diagnostics</Text>
+              <Text style={styles.btnSubText}>Audit database Merkle integrity & check edge sensors</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* Security Disclosures */}

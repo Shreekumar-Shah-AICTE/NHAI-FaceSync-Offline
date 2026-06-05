@@ -3,10 +3,10 @@
  * Handles TensorFlow Lite quantized model loading and inference for MobileFaceNet.
  */
 
-import { loadTensorflowModel, type TensorflowModel } from 'react-native-fast-tflite';
+import { loadTensorflowModel, TensorflowModel } from 'react-native-fast-tflite';
 import { MODEL_CONFIGS } from '../config/modelConfig';
 import { calculateCosineSimilarity } from '../utils/faceUtils';
-import DatabaseService, { type PersonnelRecord } from './DatabaseService';
+import DatabaseService, { PersonnelRecord } from './DatabaseService';
 
 class FaceRecognitionService {
   private model: TensorflowModel | null = null;

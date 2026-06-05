@@ -20,9 +20,9 @@ import {
   TextInput,
 } from 'react-native';
 import { CameraView } from '../components/CameraView';
-import LivenessDetectionService, { type ActiveLivenessChallenge } from '../services/LivenessDetectionService';
+import LivenessDetectionService, { ActiveLivenessChallenge } from '../services/LivenessDetectionService';
 import FaceRecognitionService from '../services/FaceRecognitionService';
-import SafetyGearDetectorService, { type SafetyComplianceResult } from '../services/SafetyGearDetectorService';
+import SafetyGearDetectorService, { SafetyComplianceResult } from '../services/SafetyGearDetectorService';
 import DatabaseService from '../services/DatabaseService';
 import { verifySupervisorSignature, sha256 } from '../utils/cryptoUtils';
 
@@ -54,7 +54,7 @@ export const VerificationScreen = ({ navigation }: { navigation: any }) => {
   const [overrideOtp, setOverrideOtp] = useState('');
   const [isVerifyingOverride, setIsVerifyingOverride] = useState(false);
 
-  const challengeTimer = useRef<NodeJS.Timeout | null>(null);
+  const challengeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const loadModels = async () => {

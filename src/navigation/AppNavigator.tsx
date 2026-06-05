@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../screens/HomeScreen';
 import { EnrollmentScreen } from '../screens/EnrollmentScreen';
 import { VerificationScreen } from '../screens/VerificationScreen';
+import { DiagnosticsScreen } from '../screens/DiagnosticsScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export const AppNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Enrollment" component={EnrollmentScreen} />
       <Stack.Screen name="Verification" component={VerificationScreen} />
+      <Stack.Screen name="Diagnostics" component={DiagnosticsScreen} />
     </Stack.Navigator>
   );
 };
