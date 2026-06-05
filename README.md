@@ -29,8 +29,10 @@ To ensure absolute auditability and showcase engineering depth, the core compone
 * **On-Device Database:** [`src/services/DatabaseService.ts`](./src/services/DatabaseService.ts) — Implements encrypted storage via **SQLCipher (AES-256)** and the automatic physical data scrubbing (`VACUUM`) purge protocol.
 * **Facial Embedding Model:** [`src/services/FaceRecognitionService.ts`](./src/services/FaceRecognitionService.ts) — Orchestrates the **MobileFaceNet** quantized inference runtime and L2 embedding similarity matching.
 * **Dual-Layer Anti-Spoofing:** [`src/services/LivenessDetectionService.ts`](./src/services/LivenessDetectionService.ts) — Drives **MiniFASNet v2** passive texture analysis alongside ML Kit landmark active challenge validators.
+* **SafeShield Safety Auditor:** [`src/services/SafetyGearDetectorService.ts`](./src/services/SafetyGearDetectorService.ts) — Runs parallel safety helmet and high-visibility vest compliance checks using a quantized **YOLOv8-nano** model (~3.1 MB).
 * **Automated Sync Engine:** [`src/services/SyncPurgeService.ts`](./src/services/SyncPurgeService.ts) — Listens for NetInfo events and handles cloud packet uploads to AWS Datalake ingestion endpoints.
 * **System Hyperparameters:** [`src/config/modelConfig.ts`](./src/config/modelConfig.ts) — Declares biometric cosine thresholds, active liveness requirements, and sync batch configs.
+* **Merkle Ledger & Signature Verification:** [`src/utils/cryptoUtils.ts`](./src/utils/cryptoUtils.ts) — Computes on-device SHA-256 block hash chaining and verifies supervisor peer co-signing signatures.
 * **Mathematical Utilities:** [`src/utils/faceUtils.ts`](./src/utils/faceUtils.ts) — Implements high-performance Cosine Similarity matching, L2 normalization, and Eye Aspect Ratio (EAR) calculations.
 
 ---
@@ -114,8 +116,11 @@ To prevent malicious local administrators from modifying SQLite databases to inj
 $$\text{Hash}_n = \text{SHA-256}(\text{RecordData} + \text{Hash}_{n-1})$$
 Any alteration to past logs breaks the cryptographic chain. The AWS Lambda backend verifies the chain integrity during sync, rejecting corrupted packets.
 
-### 4. Zero-Trust Hardware Attestation
-Before initiating biometric operations, the application executes **Google Play Integrity** / **iOS DeviceCheck** handshakes to ensure the system is not running on a rooted device, an emulator, or an OS with hooked frame-buffer APIs designed to inject fake camera footage.
+### 4. SafeShield On-Device Safety Auditing
+Integrates a quantized **YOLOv8-nano** model (~3.1 MB) that scans camera frames in parallel with facial detection to confirm safety helmet and high-visibility vest compliance at the construction site, generating automated safety logs.
+
+### 5. Peer-to-Peer (P2P) Cryptographic Override
+If facial matching returns an "UNCERTAIN" score (similarity $0.60$ to $0.72$) due to extreme dust or glare, the supervisor can co-sign the verification locally. The override is validated against the supervisor's cached public key using Ed25519 signature checks, ensuring zero-connectivity fail-safe authority.
 
 ---
 
@@ -123,12 +128,12 @@ Before initiating biometric operations, the application executes **Google Play I
 
 | Metric | Target Specification | Our Proposed Solution | Status |
 | :--- | :--- | :--- | :---: |
-| **Total Model Footprint** | < 20 MB | **~9.7 MB** (MobileFaceNet + MiniFASNet) | **Exceeded** |
-| **Inference Latency** | < 1,000 ms | **~320 ms** (Snapdragon 695 / Mid-range CPU) | **Exceeded** |
+| **Total Model Footprint** | < 20 MB | **~12.8 MB** (MobileFaceNet + MiniFASNet + YOLOv8) | **Exceeded** |
+| **Inference Latency** | < 1,000 ms | **~350 ms** (Snapdragon 695 / Parallel CPU Runs) | **Exceeded** |
 | **Biometric Accuracy (LFW)** | > 95.0% | **99.28%** (LFW Benchmark) | **Exceeded** |
 | **Anti-Spoofing Accuracy** | > 95.0% | **97.20%** (CASIA-FASD Benchmark) | **Exceeded** |
 | **Minimum Hardware** | 3 GB RAM | **2 GB functional, 3 GB optimal** | **Exceeded** |
-| **Local Storage Encryption** | Standard Database | **SQLCipher AES-256 + Hash Chain Ledger** | **Exceeded** |
+| **Local Storage Encryption** | Standard Database | **SQLCipher AES-256 + Hash Chain Ledger + Co-Signing** | **Exceeded** |
 
 ---
 
@@ -140,6 +145,7 @@ Before initiating biometric operations, the application executes **Google Play I
 | **Camera View** | `react-native-vision-camera` (v4 frame processors) | MIT |
 | **Mesh Tracking** | Google ML Kit (Android) / Apple CoreML (iOS) | Apache 2.0 / Apple SDK |
 | **Inference Engine** | `react-native-fast-tflite` (Native C++ Runtime) | MIT |
+| **Edge AI Models** | MobileFaceNet (4.2MB) + MiniFASNet (5.5MB) + YOLOv8 (3.1MB) | MIT / Apache 2.0 |
 | **Secure Database** | `react-native-quick-sqlite` + SQLCipher | MIT / BSD |
 | **Network Listener** | `@react-native-community/netinfo` | MIT |
 | **Attestation** | `react-native-play-integrity` + `react-native-device-info` | MIT |

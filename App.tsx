@@ -13,6 +13,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import DatabaseService from './src/services/DatabaseService';
 import FaceRecognitionService from './src/services/FaceRecognitionService';
 import LivenessDetectionService from './src/services/LivenessDetectionService';
+import SafetyGearDetectorService from './src/services/SafetyGearDetectorService';
 
 export default function App() {
   const [appReady, setAppReady] = useState(false);
@@ -31,6 +32,9 @@ export default function App() {
 
         setLoadingStatus('Loading MiniFAS Liveness Engine...');
         await LivenessDetectionService.loadModel();
+
+        setLoadingStatus('Loading SafeShield YOLOv8 Engine...');
+        await SafetyGearDetectorService.loadModel();
 
         setAppReady(true);
       } catch (error) {

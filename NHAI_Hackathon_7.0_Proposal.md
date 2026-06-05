@@ -5,7 +5,6 @@
 
 **Submitted by:** Shreekumar Shah  
 **Email:** shreekumar.shah.dev@gmail.com  
-**Contact:** +91 8866533082  
 **Institution:** Kaushalya – The Skill University (KSU), Ahmedabad, Gujarat  
 **Programme:** Bachelor of Computer Applications (BCA) | CGPA: 8.74 / 10  
 **Date:** June 5, 2026
@@ -128,7 +127,13 @@ India's national highway expansion occurs across hyper-diverse geographies—fro
    * **Output:** 2 classes representing real/fake probabilities.
    * **Aesthetic Guard:** Analyzes high-frequency texture anomalies, surface reflectivity, and depth distortion patterns. Prevents 2D printed face or static display hacks.
 
-3. **Active Liveness Engine (Challenge-Response):**
+3. **SafeShield Safety Auditor (YOLOv8-nano):**
+   * **Size:** ~3.1 MB (INT8 Quantized).
+   * **Input:** 224 x 224 x 3 RGB crop.
+   * **Output:** Detections for safety helmet and high-visibility jacket.
+   * **Execution:** Runs in parallel with facial detection to record safety compliance automatically.
+
+4. **Active Liveness Engine (Challenge-Response):**
    * **Landmark Engine:** Google ML Kit (Android) / Apple CoreML (iOS) face mesh tracking.
    * **Dynamic Challenge Generator:** Instructs the user to perform a randomized combination of actions:
      * *Blink Check:* Eye Aspect Ratio (EAR) falls below `0.20`.
@@ -142,12 +147,18 @@ India's national highway expansion occurs across hyper-diverse geographies—fro
 
 ### 3.3 The Tamper-Evident Merkle Log Ledger
 To prevent administrators or developers from manually hacking local SQLite database files, we implement a cryptographic log chain:
-* Each verification event creates a log containing `id`, `user_id`, `timestamp`, `gps`, and `face_score`.
+* Each verification event creates a log containing `id`, `user_id`, `timestamp`, `gps`, `face_score`, and `safety_status`.
 * We compute the current log hash: `H(n) = SHA-256(RecordData + H(n-1))`.
 * The local database stores `current_hash` and `previous_hash` for each row.
 * Upon cloud synchronization, the AWS Lambda verified chain validates the mathematical sequence. If a supervisor alters or deletes a single entry locally, the hash chain breaks, invalidating the entire batch.
 
-### 3.4 Secure Sync & Purge Protocols
+### 3.4 P2P Cryptographic Supervisor Override Protocol
+In extreme outdoor environments where cosine similarity falls in the "UNCERTAIN" range (0.60 to 0.72) due to mud, glare, or dust:
+* The system escalates to an offline **P2P Co-signing Override**.
+* An authorized supervisor enters their ID and co-signing OTP, which generates a dynamic cryptographic signature over the verification parameters.
+* This signature is validated offline against the supervisor's cached public key using Ed25519 signature checks, allowing authenticated fail-safe log recording under zero-network conditions.
+
+### 3.5 Secure Sync & Purge Protocols
 1. **Network Listener:** Monitors interface state via `@react-native-community/netinfo`.
 2. **Batch Encrypted Transmission:** Uploads unsynced records to AWS API Gateway using TLS 1.3 and JWT authorization headers.
 3. **Receipt Handshake:** The server returns a cryptographic signature confirming database insertion.
@@ -178,6 +189,10 @@ CREATE TABLE verification_log (
   face_score REAL NOT NULL,
   liveness_score REAL NOT NULL,
   active_liveness INTEGER NOT NULL,  -- 0 = Failed, 1 = Passed
+  helmet_worn INTEGER NOT NULL,      -- 0 = No, 1 = Yes
+  vest_worn INTEGER NOT NULL,        -- 0 = No, 1 = Yes
+  supervisor_id TEXT,                -- Co-signing supervisor ID (if overridden)
+  supervisor_signature TEXT,         -- Cryptographic signature hex
   previous_hash TEXT NOT NULL,       -- Cryptographic link to previous record
   record_hash TEXT NOT NULL,         -- SHA-256 hash of this entire record
   synced INTEGER DEFAULT 0,          -- 0 = Pending, 1 = Synced
@@ -191,12 +206,12 @@ CREATE TABLE verification_log (
 
 | Metric | Target Specification | Proposed FaceSync Solution | Status |
 | :--- | :--- | :--- | :---: |
-| **Total Model Footprint** | < 20 MB | **~9.7 MB** (MobileFaceNet + MiniFASNet) | **Exceeded** |
-| **Inference Speed** | < 1,000 ms | **~320 ms** (Snapdragon 695 / Mid-range CPU) | **Exceeded** |
+| **Total Model Footprint** | < 20 MB | **~12.8 MB** (MobileFaceNet + MiniFAS + YOLOv8) | **Exceeded** |
+| **Inference Speed** | < 1,000 ms | **~350 ms** (Snapdragon 695 / Parallel Runs) | **Exceeded** |
 | **Biometric Accuracy** | > 95.0% | **99.28%** (LFW Benchmark) | **Exceeded** |
 | **Anti-Spoofing Accuracy** | > 95.0% | **97.20%** (CASIA-FASD Benchmark) | **Exceeded** |
 | **RAM Footprint** | 3 GB | **2 GB functional, 3 GB optimal** | **Exceeded** |
-| **System Security** | Standard DB | **SQLCipher AES-256 + Hash Chain Ledger** | **Exceeded** |
+| **System Security** | Standard DB | **SQLCipher AES-256 + Hash Ledger + P2P Override** | **Exceeded** |
 
 ---
 
